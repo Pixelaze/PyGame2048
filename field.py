@@ -181,13 +181,17 @@ class GameField:
         self.check_state()
 
         if direction == Directions.DOWN:
-            return self.make_move_down()
+            result = self.make_move_down()
         elif direction == Directions.UP:
-            return self.make_move_up()
+            result = self.make_move_up()
         elif direction == Directions.LEFT:
-            return self.make_move_left()
+            result = self.make_move_left()
         elif direction == Directions.RIGHT:
-            return self.make_move_right()
+            result = self.make_move_right()
+        
+        self.check_state()
+
+        return result
 
     def update_best_score(self):
         global BEST_SCORE
