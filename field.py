@@ -65,6 +65,8 @@ class GameField:
     def check_state(self):
         for i in range(4):
             for j in range(4):
+                if self.field[i][j] is None:
+                    continue
                 if self.field[i][j] >= 2048:
                     self.win_game()
 
@@ -74,7 +76,7 @@ class GameField:
                     return
 
         for x in range(3):
-            if self.field[x][3] == [x + 1][3]:
+            if self.field[x][3] == self.field[x + 1][3]:
                 return
             if self.field[3][x] == self.field[x + 1][3]:
                 return
@@ -176,6 +178,8 @@ class GameField:
         return is_changed
 
     def make_move(self, direction):
+        self.check_state()
+
         if direction == Directions.DOWN:
             return self.make_move_down()
         elif direction == Directions.UP:
@@ -195,10 +199,12 @@ class GameField:
 
     def lose_game(self):
         self.update_best_score()
+        print("LOSED")
         self.status = Status.LOSED
 
     def win_game(self):
         self.update_best_score()
+        print("WINNED")
         self.status = Status.WINNED
     
     def get_score(self):
