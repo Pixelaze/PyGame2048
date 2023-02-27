@@ -38,6 +38,8 @@ class GraphicsField(GameField):
                 pygame.draw.rect(screen, '#bbada0', (
                     (self.left + i * self.cell_size, self.top + j * self.cell_size), (self.cell_size, self.cell_size)),
                                  2)
+                #print(self.field.field[i][j])  # EXAMPLE: this returns the cell value
+                                                # None should be 0
 
 
 pygame.init()
