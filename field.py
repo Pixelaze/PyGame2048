@@ -3,6 +3,10 @@ import csv
 
 
 SAVE_FILE_NAME = "data.csv"
+BEST_SCORE_FILE_NAME = ".best_score"
+CURRENT_SCORE_FILE_NAME = ".current_score"
+
+BEST_SCORE = 0
 
 # Возможные значения направления хода
 class Directions:
@@ -35,6 +39,10 @@ class GameField:
                       [None, None, None, None]]
         self.status = Status.PLAYING
         self.score = 0
+
+    def get_best_score(self):
+        global BEST_SCORE
+        return BEST_SCORE
 
     def add_piece(self):
         available_positions = []
@@ -108,6 +116,7 @@ class GameField:
                 if self.field[x][y] is not None and self.field[x][y] == self.field[x][y + 1]:
                     self.field[x][y] *= 2
                     self.score += self.field[x][y]
+                    self.update_best_score()
                     self.field[x][y + 1] = None
 
                     is_changed = True
@@ -176,16 +185,33 @@ class GameField:
         elif direction == Directions.RIGHT:
             return self.make_move_right()
 
+    def update_best_score(self):
+        global BEST_SCORE
+        if self.score > BEST_SCORE:
+            print(BEST_SCORE)
+            BEST_SCORE = self.score
+            with open(BEST_SCORE_FILE_NAME, "w", encoding="utf-8") as save_file:
+                save_file.write(str(BEST_SCORE))
+
     def lose_game(self):
+        self.update_best_score()
         self.status = Status.LOSED
 
     def win_game(self):
+        self.update_best_score()
         self.status = Status.WINNED
     
     def get_score(self):
         return self.score
     
     def load_game(self):
+        global BEST_SCORE
+        with open(BEST_SCORE_FILE_NAME, "r", encoding="utf-8") as load_file:
+            BEST_SCORE = int(load_file.read().strip("\n"))
+        
+        with open(CURRENT_SCORE_FILE_NAME, "r", encoding="utf-8") as load_file:
+            self.score = int(load_file.read().strip("\n"))
+
         with open(SAVE_FILE_NAME, encoding="utf-8") as load_file:
             for i in range(4):
                 self.field[i] = [int(elem) for elem in load_file.readline().strip("\n").split(";")]
@@ -194,6 +220,12 @@ class GameField:
                         self.field[i][j] = None
     
     def save_game(self):
+        with open(BEST_SCORE_FILE_NAME, "w", encoding="utf-8") as save_file:
+            save_file.write(str(BEST_SCORE))
+        
+        with open(CURRENT_SCORE_FILE_NAME, "w", encoding="utf-8") as save_file:
+            save_file.write(str(self.score))
+
         with open(SAVE_FILE_NAME, "w", encoding="utf-8") as save_file:
             for i in range(4):
                 for j in range(3):
