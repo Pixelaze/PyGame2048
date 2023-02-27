@@ -1,5 +1,8 @@
 from random import randint
+import csv
 
+
+SAVE_FILE_NAME = "data.csv"
 
 # Возможные значения направления хода
 class Directions:
@@ -172,3 +175,34 @@ class GameField:
 
     def win_game(self):
         self.status = Status.WINNED
+    
+    def get_score(self):
+        current_score = 0
+        for i in range(4):
+            for j in range(4):
+                if self.field[i][j] is None:
+                    continue
+                current_score += self.field[i][j]
+        return current_score
+    
+    def load_game(self):
+        with open(SAVE_FILE_NAME, encoding="utf-8") as load_file:
+            for i in range(4):
+                self.field[i] = [int(elem) for elem in load_file.readline().strip("\n").split(";")]
+                for j in range(4):
+                    if self.field[i][j] == 0:
+                        self.field[i][j] = None
+    
+    def save_game(self):
+        with open(SAVE_FILE_NAME, "w", encoding="utf-8") as save_file:
+            for i in range(4):
+                for j in range(3):
+                    if self.field[i][j] is None:
+                        save_file.write("0;")
+                    else:
+                        save_file.write(str(self.field[i][j]) + ";")
+                if self.field[i][3] is None:
+                    save_file.write("0\n")
+                else:
+                    save_file.write(str(self.field[i][3]) + "\n")
+    

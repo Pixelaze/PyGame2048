@@ -1,8 +1,13 @@
 from field import *
-from GUI import *
+#from GUI import *
 
 gameField = GameField()
 gameField.add_piece()
+
+try:
+    gameField.load_game()
+except Exception as e:
+    print("Unable to load saved game: " + str(e))
 
 while True:
     print(gameField.status)
@@ -35,3 +40,6 @@ while True:
         print("Never changes. Try again.")
     else:
         gameField.add_piece()
+    
+    print("Score is: " + str(gameField.get_score()))
+    gameField.save_game()
