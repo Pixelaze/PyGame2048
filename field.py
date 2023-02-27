@@ -34,6 +34,7 @@ class GameField:
                       [None, None, None, None],
                       [None, None, None, None]]
         self.status = Status.PLAYING
+        self.score = 0
 
     def add_piece(self):
         available_positions = []
@@ -106,6 +107,7 @@ class GameField:
             for y in range(3):
                 if self.field[x][y] is not None and self.field[x][y] == self.field[x][y + 1]:
                     self.field[x][y] *= 2
+                    self.score += self.field[x][y]
                     self.field[x][y + 1] = None
 
                     is_changed = True
@@ -181,13 +183,7 @@ class GameField:
         self.status = Status.WINNED
     
     def get_score(self):
-        current_score = 0
-        for i in range(4):
-            for j in range(4):
-                if self.field[i][j] is None:
-                    continue
-                current_score += self.field[i][j]
-        return current_score
+        return self.score
     
     def load_game(self):
         with open(SAVE_FILE_NAME, encoding="utf-8") as load_file:
