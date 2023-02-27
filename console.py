@@ -42,4 +42,5 @@ while True:
         gameField.add_piece()
     
     print("Score is: " + str(gameField.get_score()))
+    print("Best score is: " + str(gameField.get_best_score()))
     gameField.save_game()
