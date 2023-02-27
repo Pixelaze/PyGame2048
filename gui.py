@@ -107,39 +107,39 @@ running = True
 while running:
     if board.get_field().status == Status.LOSED:
         board.lose_message(screen)
-        new_field = GameField()
-        board.load_field(new_field)
     elif board.get_field().status == Status.WINNED:
         board.win_message(screen)
-        new_field = GameField()
-        board.load_field(new_field)
-
+        
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.KEYDOWN:
             direction = None
             key = event.key
-            if key == pygame.K_UP or key == pygame.K_w:
-                direction = Directions.UP
-            if key == pygame.K_DOWN or key == pygame.K_s:
-                direction = Directions.DOWN
-            if key == pygame.K_LEFT or key == pygame.K_a:
-                direction = Directions.LEFT
-            if key == pygame.K_RIGHT or key == pygame.K_d:
-                direction = Directions.RIGHT
-            if direction is None:
-                pass
+            if board.get_field().status != Status.PLAYING:
+                new_field = GameField()
+                board.load_field(new_field)
             else:
-                is_changed = board.get_field().make_move(direction)
-                if not is_changed:
+                if key == pygame.K_UP or key == pygame.K_w:
+                    direction = Directions.UP
+                if key == pygame.K_DOWN or key == pygame.K_s:
+                    direction = Directions.DOWN
+                if key == pygame.K_LEFT or key == pygame.K_a:
+                    direction = Directions.LEFT
+                if key == pygame.K_RIGHT or key == pygame.K_d:
+                    direction = Directions.RIGHT
+                if direction is None:
                     pass
                 else:
-                    board.get_field().add_piece()
-                    try:
-                        board.get_field().save_game()
-                    except Exception as e:
-                        print("Unable to save game due to " + str(e))
+                    is_changed = board.get_field().make_move(direction)
+                    if not is_changed:
+                        pass
+                    else:
+                        board.get_field().add_piece()
+                        try:
+                            board.get_field().save_game()
+                        except Exception as e:
+                            print("Unable to save game due to " + str(e))
     score = board.get_field().get_score()
     screen.fill(pygame.Color('#fbf8f1'))
     board.display_score(screen, score)
