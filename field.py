@@ -47,7 +47,11 @@ class GameField:
             return
 
         x, y = available_positions[randint(0, len(available_positions) - 1)]
-        self.field[x][y] = 2
+        chance = randint(0, 100)
+        if chance <= 66:
+            self.field[x][y] = 2
+        else:
+            self.field[x][y] = 4
 
     def check_state(self):
         for i in range(4):
