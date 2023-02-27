@@ -3,8 +3,8 @@ from field import Directions
 from field import Status
 from field import GameField
 
-WINDOW_WIDTH = 500
-WINDOW_HEIGHT = 500
+WINDOW_WIDTH = 700
+WINDOW_HEIGHT = 700
 
 
 class GraphicsField(GameField):
@@ -55,12 +55,17 @@ class GraphicsField(GameField):
         text_y = WINDOW_HEIGHT // 2 - text.get_height() // 1.5
         screen.blit(text, (text_x, text_y))
 
-    def display_score(self, screen, value):
+    def display_score(self, screen):
+        current_score = board.get_field().get_score()
+        best_score = board.get_field().get_best_score()
         font = pygame.font.Font(None, 50)
-        text = font.render(f"Score: {value}", True, pygame.Color('#8e7a66'))
-        text_x = 10
-        text_y = 10
-        screen.blit(text, (text_x, text_y))
+        current_score_text = font.render(f"Сurrent Score: {current_score}", True, pygame.Color('#8e7a66'))
+        current_score_x = 10
+        current_score_y = best_score_y = 10
+        best_score_x = current_score_x + current_score_text.get_width() + 50
+        best_score_text = font.render(f"Best Score: {best_score}", True, pygame.Color('#8e7a66'))
+        screen.blit(current_score_text, (current_score_x, current_score_y))
+        screen.blit(best_score_text, (best_score_x, best_score_y))
 
     def render(self, screen):
         # For each color there are unique color
@@ -140,8 +145,7 @@ while running:
                         board.get_field().save_game()
                     except Exception as e:
                         print("Unable to save game due to " + str(e))
-    score = board.get_field().get_score()
     screen.fill(pygame.Color('#fbf8f1'))
-    board.display_score(screen, score)
+    board.display_score(screen)
     board.render(screen)
     pygame.display.flip()

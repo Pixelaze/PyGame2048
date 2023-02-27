@@ -1,12 +1,12 @@
 from random import randint
 import csv
 
-
 SAVE_FILE_NAME = "data.csv"
 BEST_SCORE_FILE_NAME = ".best_score"
 CURRENT_SCORE_FILE_NAME = ".current_score"
 
 BEST_SCORE = 0
+
 
 # Возможные значения направления хода
 class Directions:
@@ -200,15 +200,15 @@ class GameField:
     def win_game(self):
         self.update_best_score()
         self.status = Status.WINNED
-    
+
     def get_score(self):
         return self.score
-    
+
     def load_game(self):
         global BEST_SCORE
         with open(BEST_SCORE_FILE_NAME, "r", encoding="utf-8") as load_file:
             BEST_SCORE = int(load_file.read().strip("\n"))
-        
+
         with open(CURRENT_SCORE_FILE_NAME, "r", encoding="utf-8") as load_file:
             self.score = int(load_file.read().strip("\n"))
 
@@ -218,11 +218,11 @@ class GameField:
                 for j in range(4):
                     if self.field[i][j] == 0:
                         self.field[i][j] = None
-    
+
     def save_game(self):
         with open(BEST_SCORE_FILE_NAME, "w", encoding="utf-8") as save_file:
             save_file.write(str(BEST_SCORE))
-        
+
         with open(CURRENT_SCORE_FILE_NAME, "w", encoding="utf-8") as save_file:
             save_file.write(str(self.score))
 
@@ -237,4 +237,3 @@ class GameField:
                     save_file.write("0\n")
                 else:
                     save_file.write(str(self.field[i][3]) + "\n")
-    
