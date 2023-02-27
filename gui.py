@@ -41,6 +41,27 @@ class GraphicsField(GameField):
         cords = cords[0] - width_text, cords[1] - height_text
         screen.blit(text, cords)
 
+    def win_message(self, screen):
+        font = pygame.font.Font(None, 80)
+        text = font.render("You Win!", True, pygame.Color('#f9f7f3'))
+        text_x = WINDOW_WIDTH // 2 - text.get_width() // 1.5
+        text_y = WINDOW_HEIGHT // 2 - text.get_height() // 1.5
+        screen.blit(text, (text_x, text_y))
+
+    def lose_message(self, screen):
+        font = pygame.font.Font(None, 80)
+        text = font.render("You Lose!", True, pygame.Color('#f9f7f3'))
+        text_x = WINDOW_WIDTH // 2 - text.get_width() // 1.5
+        text_y = WINDOW_HEIGHT // 2 - text.get_height() // 1.5
+        screen.blit(text, (text_x, text_y))
+
+    def display_score(self, screen, value):
+        font = pygame.font.Font(None, 50)
+        text = font.render(f"Score: {value}", True, pygame.Color('#8e7a66'))
+        text_x = 10
+        text_y = 10
+        screen.blit(text, (text_x, text_y))
+
     def render(self, screen):
         # For each color there are unique color
         color_values = {
@@ -85,11 +106,11 @@ except Exception as e:
 running = True
 while running:
     if board.get_field().status == Status.LOSED:
-        # TODO: losing message
+        board.lose_message(screen)
         new_field = GameField()
         board.load_field(new_field)
     elif board.get_field().status == Status.WINNED:
-        # TODO: winning message
+        board.win_message(screen)
         new_field = GameField()
         board.load_field(new_field)
 
@@ -108,11 +129,10 @@ while running:
             if key == pygame.K_RIGHT or key == pygame.K_d:
                 direction = Directions.RIGHT
             if direction is None:
-                pass  # TODO: you cannot move like that message
+                pass
             else:
                 is_changed = board.get_field().make_move(direction)
                 if not is_changed:
-                    # TODO: you cannot move like that message
                     pass
                 else:
                     board.get_field().add_piece()
@@ -120,16 +140,8 @@ while running:
                         board.get_field().save_game()
                     except Exception as e:
                         print("Unable to save game due to " + str(e))
-                # FIXME: delete it
-                for x in range(4):
-                    for y in range(4):
-                        if board.get_field().field[x][y] is None:
-                            print("0\t", end="")
-                            continue
-                        print(str(board.get_field().field[x][y]) + "\t", end="")
-                    print()
-                print("---")
-                # FIXME: end
+    score = board.get_field().get_score()
     screen.fill(pygame.Color('#fbf8f1'))
+    board.display_score(screen, score)
     board.render(screen)
     pygame.display.flip()
