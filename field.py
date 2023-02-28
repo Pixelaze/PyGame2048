@@ -32,6 +32,9 @@ class Status:
 
 # Класс с игровым полем
 class GameField:
+    def set_level_needed_score(self, needed):
+        self.needed = needed
+
     def __init__(self):
         self.field = [[None, None, None, None],
                       [None, None, None, None],
@@ -39,6 +42,7 @@ class GameField:
                       [None, None, None, None]]
         self.status = Status.PLAYING
         self.score = 0
+        self.needed = -1 # Отрицательное число => бесконечная игра
 
     def get_best_score(self):
         global BEST_SCORE
@@ -67,6 +71,12 @@ class GameField:
         return self.status
 
     def check_state(self):
+        if self.needed < 0:
+            pass
+        else:
+            if self.score >= self.needed:
+                self.win_game()
+
         for i in range(4):
             for j in range(4):
                 if self.field[i][j] is None:
