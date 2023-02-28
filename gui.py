@@ -118,7 +118,7 @@ while running:
         screen.blit(*board.lose_message())
     elif board.get_field().get_status() == Status.WINNED:
         screen.blit(*board.win_message())
-        
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False

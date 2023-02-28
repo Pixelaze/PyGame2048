@@ -203,6 +203,8 @@ class GameField:
         elif direction == Directions.RIGHT:
             result = self.make_move_right()
 
+        self.check_state()
+
         return result
 
     def update_best_score(self):
