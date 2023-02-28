@@ -1,5 +1,5 @@
 __pycache__/
 .idea/
-data.csv
-.best_score
-.current_score
+data/data.csv
+data/.best_score
+data/.current_score

@@ -1,9 +1,9 @@
 from random import randint
 import csv
 
-SAVE_FILE_NAME = "data.csv"
-BEST_SCORE_FILE_NAME = ".best_score"
-CURRENT_SCORE_FILE_NAME = ".current_score"
+SAVE_FILE_NAME = "data/data.csv"
+BEST_SCORE_FILE_NAME = "data/.best_score"
+CURRENT_SCORE_FILE_NAME = "data/.current_score"
 
 BEST_SCORE = 0
 
@@ -192,7 +192,7 @@ class GameField:
             result = self.make_move_left()
         elif direction == Directions.RIGHT:
             result = self.make_move_right()
-        
+
         self.check_state()
 
         return result
