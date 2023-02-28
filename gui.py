@@ -140,10 +140,11 @@ while running:
                 if direction is None:
                     pass
                 else:
-                    board.get_field().make_move(direction)
-                    board.get_field().add_piece()
-                    try:
-                        board.get_field().save_game()
-                    except Exception as e:
-                        print("Unable to save game due to " + str(e))
+                    is_changed = board.get_field().make_move(direction)
+                    if is_changed:
+                        board.get_field().add_piece()
+                        try:
+                            board.get_field().save_game()
+                        except Exception as e:
+                            print("Unable to save game due to " + str(e))
     pygame.display.flip()

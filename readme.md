@@ -2,8 +2,8 @@
 ***Проект по pygame для Яндекс.Лицея***
 
 **Авторы:**
-- [Исламов Владимир](https://github.com/Pixelaze)
-- [Сироткин Игорь](https://github.com/seerigorsss)
+- Исламов Владимир [GitHub](https://github.com/Pixelaze) [VK](https://vk.com/pixelaze)
+- Сироткин Игорь [GitHub](https://github.com/seerigorsss) [VK](https://vk.com/seerigorsss)
 
 ## Описание идеи
 

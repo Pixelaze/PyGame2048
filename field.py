@@ -82,7 +82,7 @@ class GameField:
         for x in range(3):
             if self.field[x][3] == self.field[x + 1][3]:
                 return
-            if self.field[3][x] == self.field[x + 1][3]:
+            if self.field[3][x] == self.field[3][x + 1]:
                 return
             for y in range(3):
                 if self.field[x][y] == self.field[x + 1][y] or self.field[x][y] == self.field[x][y + 1]:
@@ -192,8 +192,6 @@ class GameField:
             result = self.make_move_left()
         elif direction == Directions.RIGHT:
             result = self.make_move_right()
-        
-        self.check_state()
 
         return result
 
