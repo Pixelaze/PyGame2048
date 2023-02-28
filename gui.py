@@ -41,19 +41,19 @@ class GraphicsField(GameField):
         cords = cords[0] - width_text, cords[1] - height_text
         screen.blit(text, cords)
 
-    def win_message(self, screen):
+    def win_message(self):
         font = pygame.font.Font(None, 80)
-        text = font.render("You Win!", True, pygame.Color('#f9f7f3'))
+        text = font.render("You Win!", True, pygame.Color('#004440'))
         text_x = WINDOW_WIDTH // 2 - text.get_width() // 1.5
         text_y = WINDOW_HEIGHT // 2 - text.get_height() // 1.5
-        screen.blit(text, (text_x, text_y))
+        return (text, (text_x, text_y))
 
-    def lose_message(self, screen):
+    def lose_message(self):
         font = pygame.font.Font(None, 80)
-        text = font.render("You Lose!", True, pygame.Color('#f9f7f3'))
+        text = font.render("You Lose!", True, pygame.Color('#004440'))
         text_x = WINDOW_WIDTH // 2 - text.get_width() // 1.5
         text_y = WINDOW_HEIGHT // 2 - text.get_height() // 1.5
-        screen.blit(text, (text_x, text_y))
+        return (text, (text_x, text_y))
 
     def display_score(self, screen):
         current_score = board.get_field().get_score()
@@ -113,12 +113,11 @@ while running:
     screen.fill(pygame.Color('#fbf8f1'))
     board.display_score(screen)
     board.render(screen)
-    pygame.display.flip()
 
-    if board.get_field().status == Status.LOSED:
-        board.lose_message(screen)
-    elif board.get_field().status == Status.WINNED:
-        board.win_message(screen)
+    if board.get_field().get_status() == Status.LOSED:
+        screen.blit(*board.lose_message())
+    elif board.get_field().get_status() == Status.WINNED:
+        screen.blit(*board.win_message())
         
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -147,3 +146,4 @@ while running:
                         board.get_field().save_game()
                     except Exception as e:
                         print("Unable to save game due to " + str(e))
+    pygame.display.flip()

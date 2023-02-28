@@ -62,6 +62,10 @@ class GameField:
         else:
             self.field[x][y] = 4
 
+    def get_status(self):
+        self.check_state()
+        return self.status
+
     def check_state(self):
         for i in range(4):
             for j in range(4):
@@ -203,12 +207,10 @@ class GameField:
 
     def lose_game(self):
         self.update_best_score()
-        print("LOSED")
         self.status = Status.LOSED
 
     def win_game(self):
         self.update_best_score()
-        print("WINNED")
         self.status = Status.WINNED
 
     def get_score(self):
