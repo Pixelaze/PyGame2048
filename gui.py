@@ -128,6 +128,7 @@ while running:
             if board.get_field().status != Status.PLAYING:
                 new_field = GameField()
                 board.load_field(new_field)
+                board.get_field().add_piece()
             else:
                 if key == pygame.K_UP or key == pygame.K_w:
                     direction = Directions.UP
